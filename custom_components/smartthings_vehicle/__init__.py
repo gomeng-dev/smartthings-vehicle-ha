@@ -57,7 +57,4 @@ async def async_setup_entry(hass: Any, entry: Any) -> bool:
 
 
 async def async_unload_entry(hass: Any, entry: Any) -> bool:
-    coordinator = getattr(entry, "runtime_data", None)
-    if coordinator is not None and hasattr(coordinator, "async_shutdown"):
-        coordinator.async_shutdown()
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)

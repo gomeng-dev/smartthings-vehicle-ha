@@ -6,10 +6,9 @@ from datetime import timedelta
 from time import time
 from typing import Any, Protocol, TypeVar
 
-from homeassistant.config_entries import ConfigEntry
+from homeassistant.config_entries import ConfigEntry, ConfigEntryState
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from homeassistant.helpers.event import async_call_later
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import (
@@ -36,7 +35,6 @@ from .vehicle import (
 _LOGGER = logging.getLogger(__name__)
 _COMMAND_CONVERGENCE_TIMEOUT_SECONDS = 24
 _COMMAND_CONVERGENCE_POLL_SECONDS = 2
-_TOKEN_REFRESH_MARGIN_SECONDS = 600
 _ON_STATES = {"on", "running", "started"}
 _OFF_STATES = {"off", "stopped"}
 _T = TypeVar("_T")
@@ -61,15 +59,12 @@ class SmartThingsVehicleCoordinator(DataUpdateCoordinator[VehicleStatus]):
             token_info.access_token,
             entry.data[CONF_DEVICE_ID],
         )
-        self._token_expires_at = token_info.expires_at
-        self._remove_token_refresh_timer: Callable[[], None] | None = None
         super().__init__(
             hass,
             _LOGGER,
             name=entry.data.get(CONF_TITLE) or "스마트싱스 차량",
             update_interval=timedelta(seconds=DEFAULT_SCAN_INTERVAL_SECONDS),
         )
-        self._schedule_token_refresh()
 
     async def _async_update_data(self) -> VehicleStatus:
         return await self._async_get_status_with_fresh_token()
@@ -269,13 +264,10 @@ class SmartThingsVehicleCoordinator(DataUpdateCoordinator[VehicleStatus]):
 
     async def _async_ensure_fresh_token(self, *, force_reload: bool = False) -> None:
         token_info = self._find_smartthings_token_info(self.hass)
-        should_reload = force_reload or self._token_expires_soon(token_info)
-
-        if should_reload:
+        if force_reload:
             await self._async_reload_smartthings_entries()
             token_info = self._find_smartthings_token_info(self.hass)
-
-        self._apply_token_info(token_info)
+        self.client.set_access_token(token_info.access_token)
 
     async def _async_reload_smartthings_entries(self) -> None:
         entries = list(self.hass.config_entries.async_entries(SMARTTHINGS_DOMAIN))
@@ -285,51 +277,16 @@ class SmartThingsVehicleCoordinator(DataUpdateCoordinator[VehicleStatus]):
             )
 
         for entry in entries:
-            _LOGGER.debug(
-                "Reloading SmartThings config entry %s before token expiry",
-                entry.entry_id,
-            )
+            if entry.state is not ConfigEntryState.LOADED:
+                raise SmartThingsApiError(
+                    f"Official SmartThings config entry is not loaded ({entry.state.value})."
+                )
+            _LOGGER.debug("Reloading loaded official SmartThings entry after HTTP 401")
             await self.hass.config_entries.async_reload(entry.entry_id)
-
-    def _apply_token_info(self, token_info: SmartThingsTokenInfo) -> None:
-        self.client.set_access_token(token_info.access_token)
-        self._token_expires_at = token_info.expires_at
-        self._schedule_token_refresh()
-
-    def _token_expires_soon(self, token_info: SmartThingsTokenInfo) -> bool:
-        if token_info.expires_at is None:
-            return False
-        return token_info.expires_at - time() <= _TOKEN_REFRESH_MARGIN_SECONDS
-
-    def _schedule_token_refresh(self) -> None:
-        if self._remove_token_refresh_timer is not None:
-            self._remove_token_refresh_timer()
-            self._remove_token_refresh_timer = None
-
-        if self._token_expires_at is None:
-            return
-
-        delay = max(self._token_expires_at - time() - _TOKEN_REFRESH_MARGIN_SECONDS, 0)
-        self._remove_token_refresh_timer = async_call_later(
-            self.hass,
-            delay,
-            self._handle_scheduled_token_refresh,
-        )
-
-    def _handle_scheduled_token_refresh(self, _: Any) -> None:
-        self._remove_token_refresh_timer = None
-        self.hass.add_job(self._async_scheduled_token_refresh)
-
-    async def _async_scheduled_token_refresh(self) -> None:
-        try:
-            await self._async_ensure_fresh_token(force_reload=True)
-        except Exception:  # noqa: BLE001 - keep polling fallback alive after scheduled refresh errors
-            _LOGGER.exception("Scheduled SmartThings vehicle token refresh failed")
-
-    def async_shutdown(self) -> None:
-        if self._remove_token_refresh_timer is not None:
-            self._remove_token_refresh_timer()
-            self._remove_token_refresh_timer = None
+            if entry.state is not ConfigEntryState.LOADED:
+                raise SmartThingsApiError(
+                    f"Official SmartThings reload failed ({entry.state.value})."
+                )
 
     async def _async_wait_for_status(
         self,
