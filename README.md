@@ -1,8 +1,8 @@
 # 스마트싱스 차량
 
-[![GitHub release](https://img.shields.io/github/v/release/qn1213/smartthings-vehicle-ha?display_name=tag)](https://github.com/qn1213/smartthings-vehicle-ha/releases)
+[![GitHub release](https://img.shields.io/github/v/release/gomeng-dev/smartthings-vehicle-ha?display_name=tag)](https://github.com/gomeng-dev/smartthings-vehicle-ha/releases)
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://hacs.xyz/)
-[![CI](https://github.com/qn1213/smartthings-vehicle-ha/actions/workflows/ci.yml/badge.svg)](https://github.com/qn1213/smartthings-vehicle-ha/actions/workflows/ci.yml)
+[![CI](https://github.com/gomeng-dev/smartthings-vehicle-ha/actions/workflows/ci.yml/badge.svg)](https://github.com/gomeng-dev/smartthings-vehicle-ha/actions/workflows/ci.yml)
 
 한국 SmartThings에 등록된 현대자동차·기아·제네시스 차량을 Home Assistant에서 조회하고 제어하는 커스텀 통합입니다. 내연기관·하이브리드·플러그인 하이브리드 차량과 함께 2025년식 아이오닉 5를 기준으로 전기차 상태 조회를 지원합니다.
 
