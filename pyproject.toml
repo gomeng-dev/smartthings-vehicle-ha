@@ -1,6 +1,6 @@
 [project]
 name = "smartthings-vehicle-ha"
-version = "0.5.1"
+version = "0.7.1"
 description = "한국 SmartThings 현대자동차·기아·제네시스 차량용 Home Assistant 커스텀 통합"
 readme = "README.md"
 requires-python = ">=3.12"

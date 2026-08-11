@@ -85,3 +85,23 @@ def test_client_uses_replaced_access_token_on_next_request():
         assert session.requests[0]["headers"]["Authorization"] == "Bearer new-token"
 
     asyncio.run(run())
+
+
+def test_client_fetches_raw_status_and_capability_definition_for_diagnostics():
+    async def run():
+        session = FakeSession(
+            FakeResponse(200, payload={"components": {"main": {}}}),
+            FakeResponse(200, payload={"id": "custom.vehicleSeat"}),
+        )
+        client = SmartThingsVehicleClient(session, "token", "vehicle-id")
+
+        await client.async_get_raw_status()
+        definition = await client.async_get_capability_definition("custom.vehicleSeat")
+
+        assert definition == {"id": "custom.vehicleSeat"}
+        assert session.requests[0]["url"].endswith("/devices/vehicle-id/status")
+        assert session.requests[1]["url"].endswith(
+            "/capabilities/custom.vehicleSeat/1"
+        )
+
+    asyncio.run(run())

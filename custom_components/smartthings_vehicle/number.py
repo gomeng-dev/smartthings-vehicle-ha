@@ -8,6 +8,7 @@ from homeassistant.components.number import NumberEntity, NumberEntityDescriptio
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import UnitOfTemperature, UnitOfTime
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -34,6 +35,7 @@ NUMBERS: tuple[SmartThingsVehicleNumberDescription, ...] = (
     SmartThingsVehicleNumberDescription(
         key="hvac_temperature",
         translation_key="hvac_temperature",
+        entity_category=EntityCategory.CONFIG,
         native_min_value=HVAC_TEMPERATURE_MIN,
         native_max_value=HVAC_TEMPERATURE_MAX,
         native_step=HVAC_TEMPERATURE_STEP,
@@ -45,6 +47,7 @@ NUMBERS: tuple[SmartThingsVehicleNumberDescription, ...] = (
     SmartThingsVehicleNumberDescription(
         key="hvac_ignition_duration",
         translation_key="hvac_ignition_duration",
+        entity_category=EntityCategory.CONFIG,
         native_min_value=HVAC_IGNITION_DURATION_MIN,
         native_max_value=HVAC_IGNITION_DURATION_MAX,
         native_step=HVAC_IGNITION_DURATION_STEP,

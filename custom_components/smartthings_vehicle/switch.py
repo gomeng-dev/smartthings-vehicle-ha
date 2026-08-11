@@ -7,6 +7,7 @@ from typing import Any
 from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -32,6 +33,7 @@ SWITCHES: tuple[SmartThingsVehicleSwitchDescription, ...] = (
     SmartThingsVehicleSwitchDescription(
         key="hvac_defog",
         translation_key="hvac_defog",
+        entity_category=EntityCategory.CONFIG,
         value_fn=lambda coordinator: coordinator.hvac_settings.defog == "on",
         turn_on_fn=lambda coordinator: coordinator.async_set_hvac_defog_on(),
         turn_off_fn=lambda coordinator: coordinator.async_set_hvac_defog_off(),

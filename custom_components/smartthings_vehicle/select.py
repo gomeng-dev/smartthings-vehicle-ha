@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -42,6 +43,7 @@ SELECTS: tuple[SmartThingsVehicleSelectDescription, ...] = (
     SmartThingsVehicleSelectDescription(
         key="hvac_defog",
         translation_key="hvac_defog",
+        entity_category=EntityCategory.CONFIG,
         options=list(HVAC_DEFOG_OPTIONS),
         value_fn=lambda settings: settings.defog,
         set_fn=lambda coordinator, option: coordinator.set_hvac_defog(option),
@@ -49,6 +51,7 @@ SELECTS: tuple[SmartThingsVehicleSelectDescription, ...] = (
     SmartThingsVehicleSelectDescription(
         key="hvac_ignition_duration_select",
         translation_key="hvac_ignition_duration",
+        entity_category=EntityCategory.CONFIG,
         options=list(_DURATION_OPTIONS),
         value_fn=_duration_to_option,
         set_fn=lambda coordinator, option: coordinator.set_hvac_ignition_duration(

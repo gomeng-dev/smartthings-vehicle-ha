@@ -1,13 +1,13 @@
 {
   "domain": "smartthings_vehicle",
   "name": "스마트싱스 차량",
-  "codeowners": ["@gomeng-dev"],
+  "codeowners": ["@qn1213"],
   "config_flow": true,
   "dependencies": ["smartthings"],
-  "documentation": "https://github.com/gomeng-dev/smartthings-vehicle-ha",
+  "documentation": "https://github.com/qn1213/smartthings-vehicle-ha",
   "integration_type": "device",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/gomeng-dev/smartthings-vehicle-ha/issues",
+  "issue_tracker": "https://github.com/qn1213/smartthings-vehicle-ha/issues",
   "requirements": [],
-  "version": "0.5.1"
+  "version": "0.7.1"
 }

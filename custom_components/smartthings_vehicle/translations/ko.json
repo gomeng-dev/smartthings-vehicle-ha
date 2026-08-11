@@ -24,100 +24,151 @@
   "entity": {
     "sensor": {
       "range_km": {
-        "name": "주행 가능 거리"
+        "name": "주행 · 주행 가능 거리"
       },
       "odometer_km": {
-        "name": "누적 주행 거리"
+        "name": "주행 · 누적 주행 거리"
       },
       "engine_state": {
-        "name": "시동 상태"
+        "name": "차량 상태 · 시동"
       },
       "hvac_state": {
-        "name": "공조 상태"
+        "name": "공조 · 상태"
+      },
+      "hvac_speed": {
+        "name": "공조 · 팬 속도"
+      },
+      "defog_state": {
+        "name": "공조 · 김서림 제거 상태"
       },
       "cabin_temperature": {
-        "name": "실내 온도"
+        "name": "공조 · 실내 온도"
       },
       "lock_state": {
-        "name": "잠금 상태"
+        "name": "차량 상태 · 잠금"
       },
       "front_left_door": {
-        "name": "운전석 도어"
+        "name": "차량 상태 · 운전석 도어"
       },
       "front_right_door": {
-        "name": "조수석 도어"
+        "name": "차량 상태 · 조수석 도어"
       },
       "rear_left_door": {
-        "name": "뒤 좌측 도어"
+        "name": "차량 상태 · 뒤 좌측 도어"
       },
       "rear_right_door": {
-        "name": "뒤 우측 도어"
+        "name": "차량 상태 · 뒤 우측 도어"
       },
       "front_left_window": {
-        "name": "운전석 창문"
+        "name": "차량 상태 · 운전석 창문"
       },
       "front_right_window": {
-        "name": "조수석 창문"
+        "name": "차량 상태 · 조수석 창문"
       },
       "rear_left_window": {
-        "name": "뒤 좌측 창문"
+        "name": "차량 상태 · 뒤 좌측 창문"
       },
       "rear_right_window": {
-        "name": "뒤 우측 창문"
+        "name": "차량 상태 · 뒤 우측 창문"
       },
       "fuel_warning": {
-        "name": "연료 경고"
+        "name": "경고 · 연료"
       },
       "smart_key_battery": {
-        "name": "스마트키 배터리"
+        "name": "경고 · 스마트키 배터리"
+      },
+      "tire_pressure_warning": {
+        "name": "경고 · 타이어 공기압"
+      },
+      "tire_pressure_front_left": {
+        "name": "경고 · 운전석 앞 타이어 공기압"
+      },
+      "tire_pressure_front_right": {
+        "name": "경고 · 조수석 앞 타이어 공기압"
+      },
+      "tire_pressure_rear_left": {
+        "name": "경고 · 운전석 뒤 타이어 공기압"
+      },
+      "tire_pressure_rear_right": {
+        "name": "경고 · 조수석 뒤 타이어 공기압"
+      },
+      "lamp_wire_warning": {
+        "name": "경고 · 외장 램프 회로"
+      },
+      "washer_fluid_warning": {
+        "name": "경고 · 워셔액"
+      },
+      "brake_fluid_warning": {
+        "name": "경고 · 브레이크액"
+      },
+      "engine_oil_warning": {
+        "name": "경고 · 엔진오일"
+      },
+      "ev_battery_level": {
+        "name": "전기차 · 고전압 배터리 잔량"
+      },
+      "charging_state": {
+        "name": "전기차 · 충전 상태"
+      },
+      "charging_detail": {
+        "name": "전기차 · 충전 방식"
+      },
+      "charging_plug": {
+        "name": "전기차 · 충전 커넥터 상태"
+      },
+      "auxiliary_battery_warning": {
+        "name": "경고 · 보조 배터리"
+      },
+      "electric_vehicle_battery_warning": {
+        "name": "경고 · 고전압 배터리"
       },
       "health": {
-        "name": "연결 상태"
+        "name": "시스템 · 연결 상태"
       },
       "command_state": {
-        "name": "명령 상태"
+        "name": "시스템 · 명령 상태"
       }
     },
     "button": {
       "refresh": {
-        "name": "차량 상태 새로고침"
+        "name": "시스템 · 차량 상태 새로고침"
       },
       "ping_vehicle": {
-        "name": "차량 연결 확인"
+        "name": "시스템 · 차량 연결 확인"
       }
     },
     "number": {
       "hvac_temperature": {
-        "name": "공조 설정 온도"
+        "name": "공조 설정 · 온도"
       },
       "hvac_ignition_duration": {
-        "name": "공조 작동 시간"
+        "name": "공조 설정 · 작동 시간"
       }
     },
     "select": {
       "hvac_defog": {
-        "name": "앞유리 김서림 제거"
+        "name": "공조 설정 · 앞유리 김서림 제거"
       },
       "hvac_ignition_duration": {
-        "name": "공조 작동 시간"
+        "name": "공조 설정 · 작동 시간"
       }
     },
     "lock": {
       "door_lock": {
-        "name": "차량 잠금"
+        "name": "차량 제어 · 잠금"
       }
     },
     "switch": {
       "hvac": {
-        "name": "공조"
+        "name": "공조 제어 · 켜기/끄기"
       },
       "hvac_defog": {
-        "name": "앞유리 김서림 제거"
+        "name": "공조 설정 · 앞유리 김서림 제거"
       }
     },
     "climate": {
       "hvac_climate": {
-        "name": "에어컨"
+        "name": "공조 제어 · 에어컨"
       }
     }
   }

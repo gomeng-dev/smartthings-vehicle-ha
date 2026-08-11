@@ -182,6 +182,26 @@ class SmartThingsVehicleCoordinator(DataUpdateCoordinator[VehicleStatus]):
     async def _async_get_status_with_fresh_token(self) -> VehicleStatus:
         return await self._async_call_with_fresh_token(self.client.async_get_status)
 
+    async def async_get_diagnostics_payloads(
+        self,
+    ) -> tuple[dict[str, Any], dict[str, Any]]:
+        """Return raw device and status payloads using a fresh OAuth token."""
+
+        device = await self._async_call_with_fresh_token(self.client.async_get_device)
+        status = await self._async_call_with_fresh_token(self.client.async_get_raw_status)
+        return device, status
+
+    async def async_get_capability_definition(
+        self,
+        capability_id: str,
+    ) -> dict[str, Any]:
+        """Return a SmartThings capability definition for diagnostics."""
+
+        return await self._async_call_with_fresh_token(
+            self.client.async_get_capability_definition,
+            capability_id,
+        )
+
     async def _async_call_with_fresh_token(
         self,
         callback: Callable[..., Awaitable[_T]],
