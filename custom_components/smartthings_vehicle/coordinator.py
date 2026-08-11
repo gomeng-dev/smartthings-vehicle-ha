@@ -318,7 +318,7 @@ class SmartThingsVehicleCoordinator(DataUpdateCoordinator[VehicleStatus]):
 
     def _handle_scheduled_token_refresh(self, _: Any) -> None:
         self._remove_token_refresh_timer = None
-        self.hass.async_create_task(self._async_scheduled_token_refresh())
+        self.hass.add_job(self._async_scheduled_token_refresh)
 
     async def _async_scheduled_token_refresh(self) -> None:
         try:

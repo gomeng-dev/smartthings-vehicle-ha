@@ -133,6 +133,8 @@ def test_home_assistant_platforms_include_hvac_number_select_and_toggle_entities
     assert "extra_state_attributes" in sensor_source
     assert "_TOKEN_REFRESH_MARGIN_SECONDS = 600" in coordinator_source
     assert "async_call_later" in coordinator_source
+    assert "self.hass.add_job(self._async_scheduled_token_refresh)" in coordinator_source
+    assert "async_create_task(self._async_scheduled_token_refresh())" not in coordinator_source
     assert "_async_ensure_fresh_token" in coordinator_source
     assert "SmartThingsUnauthorizedError" in coordinator_source
     assert "retrying once" in coordinator_source
